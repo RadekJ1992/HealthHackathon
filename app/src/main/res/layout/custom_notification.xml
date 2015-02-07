@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="30"
-        android:text="Atak astmy"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageButton
