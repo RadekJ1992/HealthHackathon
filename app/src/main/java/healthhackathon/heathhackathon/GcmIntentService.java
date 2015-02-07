@@ -13,8 +13,10 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -101,7 +103,7 @@ public class GcmIntentService extends IntentService {
 
 
     //wywołanie notyfikacji
-    public void startNotification(View view)
+    public void startNotification(int i, double lati, double longi)
     {
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.not_icon);
 
@@ -109,8 +111,28 @@ public class GcmIntentService extends IntentService {
         //TO-DO: dopisać przypisanie aktualnych pozycji
 
         double latitude, longitude;
-        latitude = 52.179138;
-        longitude = 21.058139;
+        //latitude = 52.179138;
+        //longitude = 21.058139;
+
+        latitude = lati;
+        longitude = longi;
+        String alertType;
+
+        alertType="";
+        if(i==1) alertType="Utrata przytomnośc";
+        else
+        if(i==2) alertType="Padaczka";
+        else
+        if(i==3) alertType="Wypadek";
+        else
+        if(i==4) alertType="Cukrzyca";
+        else
+        if(i==5) alertType="Astma";
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View header = (View)inflater.inflate(R.layout.custom_notification, null);
+        TextView alertTypeLabel= (TextView) header.findViewById(R.id.request_type);
+        alertTypeLabel.setText( alertType );
 
         String uri = "google.navigation:q=%f, %f";
         Intent navIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String
@@ -137,7 +159,7 @@ public class GcmIntentService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.icon_status_bar)
-                        .setTicker("na ratunek")
+                        .setTicker("Ktoś wzywa pomocy: " + alertType)
                         .setContent(customNoti);
 
         customNoti.setOnClickPendingIntent(R.id.button1, navPendingIntent);
