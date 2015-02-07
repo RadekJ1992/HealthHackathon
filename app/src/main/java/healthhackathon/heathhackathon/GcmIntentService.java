@@ -62,9 +62,28 @@ public class GcmIntentService extends IntentService {
             } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
+                String latitudeString = extras.getString("lat");
+                String longitudeString = extras.getString("lan");
+                String typeString = extras.getString("additional_info");
+                Integer type = null;
+                Double latitude = null;
+                Double longitude = null;
+                try {
+                    type = Integer.valueOf(typeString);
+                    latitude = Double.valueOf(latitudeString);
+                    longitude = Double.valueOf(longitudeString);
+                } catch (NumberFormatException e) {
+                    Log.d("WRONG", "Namber format eksepszyn");
+                }
 
+                if (type != null && latitude != null && longitude != null) {
+                    startNotification(type, latitude, longitude);
+                } else {
+                    sendNotification("Something was null");
+                }
                 sendNotification("Received: " + extras.toString());
                 Log.i(TAG, "Received: " + extras.toString());
+                //Log.i(TAG, "With data: " + intent.getData().toString());
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -111,15 +130,13 @@ public class GcmIntentService extends IntentService {
         String alertType;
 
         alertType="";
-        if(i==1) alertType="Utrata przytomnośc";
+        if(i==1) alertType="Utrata przytomności";
         else
         if(i==2) alertType="Padaczka";
         else
         if(i==3) alertType="Wypadek";
         else
-        if(i==4) alertType="Cukrzyca";
-        else
-        if(i==5) alertType="Astma";
+        if(i==4) alertType="Astma";
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View header = (View)inflater.inflate(R.layout.custom_notification, null);

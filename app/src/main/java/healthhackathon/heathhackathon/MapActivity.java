@@ -254,41 +254,41 @@ public class MapActivity extends FragmentActivity implements LocationListener{
 
         try {
             if (firstUse) {
-                sendRegisterPost(deviceId, String.valueOf(currentLatitude), String.valueOf(currentLongitude));
+                sendRegisterPost(regid, String.valueOf(currentLatitude), String.valueOf(currentLongitude));
                 firstUse = false;
             } else {
-                sendUpdatePut(deviceId, String.valueOf(currentLatitude), String.valueOf(currentLongitude));
+                sendUpdatePut(regid, String.valueOf(currentLatitude), String.valueOf(currentLongitude));
             }
         } catch (Exception e) {
             Log.d("ERROR", e.getLocalizedMessage());
             e.printStackTrace();
         }
 
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String msg = "";
-                try {
-                    Bundle data = new Bundle();
-                    data.putString("type", "0");
-                    data.putString("deviceId", deviceId);
-                    data.putDouble("latitude", currentLatitude);
-                    data.putDouble("longitude", currentLongitude);
-                    String id = Integer.toString(msgId.incrementAndGet());
-                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
-                    msg = "Sent message";
-                    Log.d("TEST", "SendMessage " + id + " : " + data);
+//        new AsyncTask<Void, Void, String>() {
+//            @Override
+//            protected String doInBackground(Void... params) {
+//                String msg = "";
+//                try {
+//                    Bundle data = new Bundle();
+//                    data.putString("type", "0");
+//                    data.putString("deviceId", deviceId);
+//                    data.putDouble("latitude", currentLatitude);
+//                    data.putDouble("longitude", currentLongitude);
+//                    String id = Integer.toString(msgId.incrementAndGet());
+//                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+//                    msg = "Sent message";
+//                    Log.d("TEST", "SendMessage " + id + " : " + data);
+//
+//                } catch (IOException ex) {
+//                    msg = "Error :" + ex.getMessage();
+//                }
+//                return msg;
+//            }
 
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                }
-                return msg;
-            }
-
-            @Override
-            protected void onPostExecute(String msg) {
-            }
-        }.execute(null, null, null);
+//            @Override
+//            protected void onPostExecute(String msg) {
+//            }
+//        }.execute(null, null, null);
     }
 
     /* (non-Javadoc)
@@ -469,32 +469,13 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                     con.setRequestMethod("GET");
                     con.setRequestProperty("Content-Type", "application/json");
                     con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)");
-                    // Send post request
-                    //con.setDoOutput(true);
-                    // DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                    //OutputStream wr = con.getOutputStream();
-                    //wr.write(urlParameters.getBytes("UTF-8"));
-                    //wr.flush();
-                    //wr.close();
+
                     con.connect();
 
                     int responseCode = con.getResponseCode();
                     Log.d("TEST", "Sending 'GET' request to URL : " + url);
-                    //Log.d("TEST", "Post parameters : " + urlParameters);
                     Log.d("TEST", "Response Code : " + responseCode);
 
-                    //BufferedReader in = new BufferedReader(
-                    //        new InputStreamReader(con.getInputStream()));
-                    //String inputLine;
-                    //StringBuffer response = new StringBuffer();
-
-//                    while ((inputLine = in.readLine()) != null) {
-//                        response.append(inputLine);
-//                    }
-//                    in.close();
-//
-//                    //print result
-//                    Log.d("TEST", response.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
