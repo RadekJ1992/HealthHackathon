@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 //import android.os.AsyncTask;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -40,6 +41,9 @@ public class MapActivity extends FragmentActivity implements LocationListener{
 
     String SENDER_ID = "278851512630";
 
+    final Context context = this;
+    public  String deviceId;
+
     static final String TAG = "GCMDemo";
 
     GoogleCloudMessaging gcm;
@@ -48,7 +52,6 @@ public class MapActivity extends FragmentActivity implements LocationListener{
 
     String regid;
 
-    final Context context = this;
 
     private Double currentLatitude;
     private Double currentLongitude;
@@ -62,9 +65,10 @@ public class MapActivity extends FragmentActivity implements LocationListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         setUpMapIfNeeded();
-    Log.d("TESTT", "Test logu");
+        Log.d("TESTT", "Test logu");
         helpButton = (Button) findViewById(R.id.helpButton);
-
+        deviceId = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         regid = getRegistrationId(context);
 
         if (regid.isEmpty()) {
@@ -102,10 +106,10 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                                 String msg = "";
                                 try {
                                     Bundle data = new Bundle();
-                                    data.putString("my_message", "Hello World");
-                                    // data.putString("my_message", "Hello World");
-                                    // data.putString("my_action",
-                                    //"com.google.android.gcm.demo.app.ECHO_NOW");
+                                    data.putString("type", "1");
+                                    data.putString("deviceId", deviceId);
+                                    data.putDouble("latitude", currentLatitude);
+                                    data.putDouble("longitude", currentLongitude);
                                     String id = Integer.toString(msgId.incrementAndGet());
                                     gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
                                     msg = "Sent message";
@@ -131,7 +135,32 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        //TODO implementacja
+                        new AsyncTask<Void, Void, String>() {
+                            @Override
+                            protected String doInBackground(Void... params) {
+                                String msg = "";
+                                try {
+                                    Bundle data = new Bundle();
+                                    data.putString("type", "2");
+                                    data.putString("deviceId", deviceId);
+                                    data.putDouble("latitude", currentLatitude);
+                                    data.putDouble("longitude", currentLongitude);
+                                    String id = Integer.toString(msgId.incrementAndGet());
+                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+                                    msg = "Sent message";
+                                    Log.d("TEST", "SendMessage " + id + " : " + data);
+
+                                } catch (IOException ex) {
+                                    msg = "Error :" + ex.getMessage();
+                                }
+                                return msg;
+                            }
+
+                            @Override
+                            protected void onPostExecute(String msg) {
+                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
+                            }
+                        }.execute(null, null, null);
                     }
                 });
 
@@ -141,7 +170,32 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        //TODO implementacja
+                        new AsyncTask<Void, Void, String>() {
+                            @Override
+                            protected String doInBackground(Void... params) {
+                                String msg = "";
+                                try {
+                                    Bundle data = new Bundle();
+                                    data.putString("type", "3");
+                                    data.putString("deviceId", deviceId);
+                                    data.putDouble("latitude", currentLatitude);
+                                    data.putDouble("longitude", currentLongitude);
+                                    String id = Integer.toString(msgId.incrementAndGet());
+                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+                                    msg = "Sent message";
+                                    Log.d("TEST", "SendMessage " + id + " : " + data);
+
+                                } catch (IOException ex) {
+                                    msg = "Error :" + ex.getMessage();
+                                }
+                                return msg;
+                            }
+
+                            @Override
+                            protected void onPostExecute(String msg) {
+                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
+                            }
+                        }.execute(null, null, null);
                     }
                 });
 
@@ -151,7 +205,32 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        //TODO implementacja
+                        new AsyncTask<Void, Void, String>() {
+                            @Override
+                            protected String doInBackground(Void... params) {
+                                String msg = "";
+                                try {
+                                    Bundle data = new Bundle();
+                                    data.putString("type", "4");
+                                    data.putString("deviceId", deviceId);
+                                    data.putDouble("latitude", currentLatitude);
+                                    data.putDouble("longitude", currentLongitude);
+                                    String id = Integer.toString(msgId.incrementAndGet());
+                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+                                    msg = "Sent message";
+                                    Log.d("TEST", "SendMessage " + id + " : " + data);
+
+                                } catch (IOException ex) {
+                                    msg = "Error :" + ex.getMessage();
+                                }
+                                return msg;
+                            }
+
+                            @Override
+                            protected void onPostExecute(String msg) {
+                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
+                            }
+                        }.execute(null, null, null);
                     }
                 });
 
@@ -259,8 +338,34 @@ public class MapActivity extends FragmentActivity implements LocationListener{
         CameraUpdate center= CameraUpdateFactory.newLatLng(new LatLng(currentLatitude, currentLongitude));
         mMap.moveCamera(center);
 
-        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                .position(new LatLng(currentLatitude,currentLongitude)));
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                try {
+                    Bundle data = new Bundle();
+                    data.putString("type", "0");
+                    data.putString("deviceId", deviceId);
+                    data.putDouble("latitude", currentLatitude);
+                    data.putDouble("longitude", currentLongitude);
+                    String id = Integer.toString(msgId.incrementAndGet());
+                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+                    msg = "Sent message";
+                    Log.d("TEST", "SendMessage " + id + " : " + data);
+
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
+            }
+        }.execute(null, null, null);
+       // mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+         //       .position(new LatLng(currentLatitude,currentLongitude)));
         //Toast.makeText(this, "Location update: " + lat + ", " + lng, Toast.LENGTH_SHORT).show();
     }
 
