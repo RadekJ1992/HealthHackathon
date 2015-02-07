@@ -29,8 +29,19 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MapActivity extends FragmentActivity implements LocationListener{
 
@@ -50,6 +61,7 @@ public class MapActivity extends FragmentActivity implements LocationListener{
     AtomicInteger msgId = new AtomicInteger();
     SharedPreferences prefs;
 
+    private boolean firstUse = true;
     String regid;
 
 
@@ -100,32 +112,7 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        new AsyncTask<Void, Void, String>() {
-                            @Override
-                            protected String doInBackground(Void... params) {
-                                String msg = "";
-                                try {
-                                    Bundle data = new Bundle();
-                                    data.putString("type", "1");
-                                    data.putString("deviceId", deviceId);
-                                    data.putDouble("latitude", currentLatitude);
-                                    data.putDouble("longitude", currentLongitude);
-                                    String id = Integer.toString(msgId.incrementAndGet());
-                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
-                                    msg = "Sent message";
-                                    Log.d("TEST", "SendMessage " + id + " : " + data);
-
-                                } catch (IOException ex) {
-                                    msg = "Error :" + ex.getMessage();
-                                }
-                                return msg;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String msg) {
-                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
-                            }
-                        }.execute(null, null, null);
+                        sendHelpGet(String.valueOf(currentLatitude), String.valueOf(currentLongitude), String.valueOf(1));
                     }
                 });
 
@@ -135,32 +122,7 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        new AsyncTask<Void, Void, String>() {
-                            @Override
-                            protected String doInBackground(Void... params) {
-                                String msg = "";
-                                try {
-                                    Bundle data = new Bundle();
-                                    data.putString("type", "2");
-                                    data.putString("deviceId", deviceId);
-                                    data.putDouble("latitude", currentLatitude);
-                                    data.putDouble("longitude", currentLongitude);
-                                    String id = Integer.toString(msgId.incrementAndGet());
-                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
-                                    msg = "Sent message";
-                                    Log.d("TEST", "SendMessage " + id + " : " + data);
-
-                                } catch (IOException ex) {
-                                    msg = "Error :" + ex.getMessage();
-                                }
-                                return msg;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String msg) {
-                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
-                            }
-                        }.execute(null, null, null);
+                        sendHelpGet(String.valueOf(currentLatitude), String.valueOf(currentLongitude), String.valueOf(2));
                     }
                 });
 
@@ -170,32 +132,7 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        new AsyncTask<Void, Void, String>() {
-                            @Override
-                            protected String doInBackground(Void... params) {
-                                String msg = "";
-                                try {
-                                    Bundle data = new Bundle();
-                                    data.putString("type", "3");
-                                    data.putString("deviceId", deviceId);
-                                    data.putDouble("latitude", currentLatitude);
-                                    data.putDouble("longitude", currentLongitude);
-                                    String id = Integer.toString(msgId.incrementAndGet());
-                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
-                                    msg = "Sent message";
-                                    Log.d("TEST", "SendMessage " + id + " : " + data);
-
-                                } catch (IOException ex) {
-                                    msg = "Error :" + ex.getMessage();
-                                }
-                                return msg;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String msg) {
-                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
-                            }
-                        }.execute(null, null, null);
+                        sendHelpGet(String.valueOf(currentLatitude), String.valueOf(currentLongitude), String.valueOf(3));
                     }
                 });
 
@@ -205,32 +142,7 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                      */
                     @Override
                     public void onClick(View arg0) {
-                        new AsyncTask<Void, Void, String>() {
-                            @Override
-                            protected String doInBackground(Void... params) {
-                                String msg = "";
-                                try {
-                                    Bundle data = new Bundle();
-                                    data.putString("type", "4");
-                                    data.putString("deviceId", deviceId);
-                                    data.putDouble("latitude", currentLatitude);
-                                    data.putDouble("longitude", currentLongitude);
-                                    String id = Integer.toString(msgId.incrementAndGet());
-                                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
-                                    msg = "Sent message";
-                                    Log.d("TEST", "SendMessage " + id + " : " + data);
-
-                                } catch (IOException ex) {
-                                    msg = "Error :" + ex.getMessage();
-                                }
-                                return msg;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String msg) {
-                                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
-                            }
-                        }.execute(null, null, null);
+                        sendHelpGet(String.valueOf(currentLatitude), String.valueOf(currentLongitude), String.valueOf(4));
                     }
                 });
 
@@ -338,6 +250,18 @@ public class MapActivity extends FragmentActivity implements LocationListener{
         CameraUpdate center= CameraUpdateFactory.newLatLng(new LatLng(currentLatitude, currentLongitude));
         mMap.moveCamera(center);
 
+        try {
+            if (firstUse) {
+                sendRegisterPost(deviceId, String.valueOf(currentLatitude), String.valueOf(currentLongitude));
+                firstUse = false;
+            } else {
+                sendUpdatePut(deviceId, String.valueOf(currentLatitude), String.valueOf(currentLongitude));
+            }
+        } catch (Exception e) {
+            Log.d("ERROR", e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -361,12 +285,8 @@ public class MapActivity extends FragmentActivity implements LocationListener{
 
             @Override
             protected void onPostExecute(String msg) {
-                //Toast.makeText(MapActivity.this, "Test wysyłania", Toast.LENGTH_SHORT);
             }
         }.execute(null, null, null);
-       // mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-         //       .position(new LatLng(currentLatitude,currentLongitude)));
-        //Toast.makeText(this, "Location update: " + lat + ", " + lng, Toast.LENGTH_SHORT).show();
     }
 
     /* (non-Javadoc)
@@ -435,7 +355,6 @@ public class MapActivity extends FragmentActivity implements LocationListener{
 
             @Override
             protected void onPostExecute(String s) {
-                //super.onPostExecute(s);
             }
         }.execute(null, null, null);
     }
@@ -476,4 +395,160 @@ public class MapActivity extends FragmentActivity implements LocationListener{
     public void setCurrentLongitude(Double currentLongitude) {
         this.currentLongitude = currentLongitude;
     }
+
+    // HTTP POST request
+    private void sendRegisterPost(String device, String latitude, String longitude) throws Exception {
+        final String dev = new String(device);
+        final String lat = new String(latitude);
+        final String lng = new String(longitude);
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                String url = "http://plus112.herokuapp.com/users";
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                //add reuqest header
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                String urlParameters = "{\"user\": {\"device_id\": \"" + dev +
+                        "\", \"latitude\": " + lat +
+                        ", \"longitude\": " + lng + "}}";
+
+                // Send post request
+                con.setDoOutput(true);
+               // DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                    OutputStream wr = con.getOutputStream();
+                    wr.write(urlParameters.getBytes("UTF-8"));
+                wr.flush();
+                wr.close();
+
+                int responseCode = con.getResponseCode();
+                Log.d("TEST", "Sending 'POST' request to URL : " + url);
+                Log.d("TEST", "Post parameters : " + urlParameters);
+                Log.d("TEST", "Response Code : " + responseCode);
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                //print result
+                Log.d("TEST", response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(null, null, null);
+    }
+
+    private void sendHelpGet(String latitude, String longitude, String type) {
+        final String typ= new String(type);
+        final String lat = new String(latitude);
+        final String lng = new String(longitude);
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    String url = "http://plus112.herokuapp.com/help-me/"+lat+"/"+lng+"/"+typ;
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                    //add reuqest header
+                    con.setRequestMethod("GET");
+                    con.setRequestProperty("Content-Type", "application/json");
+
+                    // Send post request
+                    con.setDoOutput(true);
+                    // DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                    //OutputStream wr = con.getOutputStream();
+                    //wr.write(urlParameters.getBytes("UTF-8"));
+                    wr.flush();
+                    wr.close();
+
+                    int responseCode = con.getResponseCode();
+                    Log.d("TEST", "Sending 'GET' request to URL : " + url);
+                    //Log.d("TEST", "Post parameters : " + urlParameters);
+                    Log.d("TEST", "Response Code : " + responseCode);
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    //print result
+                    Log.d("TEST", response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(null, null, null);
+    }
+
+    private void sendUpdatePut(String device, String latitude, String longitude) {
+        final String dev = new String(device);
+        final String lat = new String(latitude);
+        final String lng = new String(longitude);
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    String url = "http://plus112.herokuapp.com/users/"+dev;
+                    URL obj = new URL(url);
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                    //add reuqest header
+                    con.setRequestMethod("PUT");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    String urlParameters = "{\"user\": {\"latitude\": " + lat +
+                            ", \"longitude\": " + lng + "}}";
+
+                    // Send post request
+                    con.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                    wr.writeBytes(urlParameters);
+                    wr.flush();
+                    wr.close();
+
+                    int responseCode = con.getResponseCode();
+                    Log.d("TEST", "Sending 'PUT' request to URL : " + url);
+                    Log.d("TEST", "Post parameters : " + urlParameters);
+                    Log.d("TEST", "Response Code : " + responseCode);
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    //print result
+                    Log.d("TEST", response.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(null, null, null);
+    }
+
 }

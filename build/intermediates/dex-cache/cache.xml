@@ -16,11 +16,18 @@
         <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/classes-3923c868e523ef1aa76af959785fb5a107755f7d.jar" />
     </item>
     <item
-        jar="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jar="/Users/radoslawjarzynka/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.3.2/559b70ac8a0d5cad611da4223137a920147201ba/jackson-core-2.3.2.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
-        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/classes-9df1f55493dedfcf68bde3ddf5f1ef251fae55da.jar" />
+        sha1="559b70ac8a0d5cad611da4223137a920147201ba">
+        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/jackson-core-2.3.2-9eeb676113b002b36ee1f2314de8c7910ee0ae37.jar" />
+    </item>
+    <item
+        jar="/Users/radoslawjarzynka/.gradle/caches/modules-2/files-2.1/org.springframework.android/spring-android-core/1.0.1.RELEASE/e68f0e8e4b636ee30c4de58953be38d9b72a5e3b/spring-android-core-1.0.1.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e68f0e8e4b636ee30c4de58953be38d9b72a5e3b">
+        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/spring-android-core-1.0.1.RELEASE-0ccb1b3f9133e98706f83dbcd9559b65676febbe.jar" />
     </item>
     <item
         jar="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
@@ -28,6 +35,34 @@
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
         <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/classes-95ee76738b7a81d227906dd444c75fac4ddbc910.jar" />
+    </item>
+    <item
+        jar="/Users/radoslawjarzynka/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.3.0/f5e853a20b60758922453d56f9ae1e64af5cb3da/jackson-annotations-2.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f5e853a20b60758922453d56f9ae1e64af5cb3da">
+        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/jackson-annotations-2.3.0-aad750e6ef73c721fe10fbe4092b143cfffe4c79.jar" />
+    </item>
+    <item
+        jar="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/classes-9df1f55493dedfcf68bde3ddf5f1ef251fae55da.jar" />
+    </item>
+    <item
+        jar="/Users/radoslawjarzynka/.gradle/caches/modules-2/files-2.1/org.springframework.android/spring-android-rest-template/1.0.1.RELEASE/e132d929bd181941f79b0d63edafb8a86ae6fd33/spring-android-rest-template-1.0.1.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e132d929bd181941f79b0d63edafb8a86ae6fd33">
+        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/spring-android-rest-template-1.0.1.RELEASE-9bfd62bafe8d1ad81620cb2732f6088ed15638ca.jar" />
+    </item>
+    <item
+        jar="/Users/radoslawjarzynka/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.3.2/c75edc740a6d8cb1cef6fa82fa594e0bce561916/jackson-databind-2.3.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c75edc740a6d8cb1cef6fa82fa594e0bce561916">
+        <dex dex="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/pre-dexed/debug/jackson-databind-2.3.2-e997352af8d969f39ac980ea131cfc68a81fb568.jar" />
     </item>
     <item
         jar="/Users/radoslawjarzynka/AndroidStudioProjects/HeathHackathon/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
