@@ -5,12 +5,20 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.view.View;
+import android.widget.RemoteViews;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.util.Locale;
 
 /**
  * Created by radoslawjarzynka on 07.02.15.
@@ -89,5 +97,77 @@ public class GcmIntentService extends IntentService {
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+
+    //wywołanie notyfikacji
+    public void startNotification(View view)
+    {
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.not_icon);
+
+
+        //TO-DO: dopisać przypisanie aktualnych pozycji
+
+        double latitude, longitude;
+        latitude = 52.179138;
+        longitude = 21.058139;
+
+        String uri = "google.navigation:q=%f, %f";
+        Intent navIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String
+                .format(Locale.US, uri, latitude, longitude)));
+        navIntent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntent(navIntent);
+
+        PendingIntent navPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        /*if (canHandleIntent(this, navIntent));
+        else
+            Toast.makeText(this, "Please install Google Navigation",
+                    Toast.LENGTH_LONG).show();*/
+
+        RemoteViews customNoti = new RemoteViews(getPackageName(),
+                R.layout.custom_notification);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.icon_status_bar)
+                        .setTicker("na ratunek")
+                        .setContent(customNoti);
+
+        customNoti.setOnClickPendingIntent(R.id.button1, navPendingIntent);
+
+// Creates an explicit intent for an Activity in your app
+        //Intent resultIntent = new Intent(this, ResultActivity.class);
+
+        /*
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+        //TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        //stackBuilder.addParentStack(ResultActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        //stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);*/
+
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        mNotificationManager.notify(123, mBuilder.build());
+
     }
 }
