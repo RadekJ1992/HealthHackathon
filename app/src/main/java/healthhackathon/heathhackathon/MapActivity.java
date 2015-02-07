@@ -52,6 +52,8 @@ public class MapActivity extends FragmentActivity implements LocationListener{
 
     String SENDER_ID = "278851512630";
 
+    //String SENDER_ID = "AIzaSyBFOarAPW7DNv6nAAeYa4rEd-q2qM3-AHY";
+
     final Context context = this;
     public  String deviceId;
 
@@ -83,13 +85,13 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                 Settings.Secure.ANDROID_ID);
         regid = getRegistrationId(context);
 
-        if (regid.isEmpty()) {
-            registerInBackground();
-        } else {
-            if (gcm == null) {
-                gcm = GoogleCloudMessaging.getInstance(context);
-            }
-        }
+        registerInBackground();
+//        if (regid.isEmpty()) {
+//        } else {
+//            if (gcm == null) {
+//                gcm = GoogleCloudMessaging.getInstance(context);
+//            }
+//        }
 
         helpButton.setOnClickListener(new View.OnClickListener() {
             /* (non-Javadoc)
@@ -430,18 +432,18 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                 Log.d("TEST", "Post parameters : " + urlParameters);
                 Log.d("TEST", "Response Code : " + responseCode);
 
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                //print result
-                Log.d("TEST", response.toString());
+//                BufferedReader in = new BufferedReader(
+//                        new InputStreamReader(con.getInputStream()));
+//                String inputLine;
+//                StringBuffer response = new StringBuffer();
+//
+//                while ((inputLine = in.readLine()) != null) {
+//                    response.append(inputLine);
+//                }
+//                in.close();
+//
+//                //print result
+//                Log.d("TEST", response.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -466,32 +468,33 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                     //add reuqest header
                     con.setRequestMethod("GET");
                     con.setRequestProperty("Content-Type", "application/json");
-
+                    con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)");
                     // Send post request
-                    con.setDoOutput(true);
+                    //con.setDoOutput(true);
                     // DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                     //OutputStream wr = con.getOutputStream();
                     //wr.write(urlParameters.getBytes("UTF-8"));
-                    wr.flush();
-                    wr.close();
+                    //wr.flush();
+                    //wr.close();
+                    con.connect();
 
                     int responseCode = con.getResponseCode();
                     Log.d("TEST", "Sending 'GET' request to URL : " + url);
                     //Log.d("TEST", "Post parameters : " + urlParameters);
                     Log.d("TEST", "Response Code : " + responseCode);
 
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(con.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
+                    //BufferedReader in = new BufferedReader(
+                    //        new InputStreamReader(con.getInputStream()));
+                    //String inputLine;
+                    //StringBuffer response = new StringBuffer();
 
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    //print result
-                    Log.d("TEST", response.toString());
+//                    while ((inputLine = in.readLine()) != null) {
+//                        response.append(inputLine);
+//                    }
+//                    in.close();
+//
+//                    //print result
+//                    Log.d("TEST", response.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -531,18 +534,18 @@ public class MapActivity extends FragmentActivity implements LocationListener{
                     Log.d("TEST", "Post parameters : " + urlParameters);
                     Log.d("TEST", "Response Code : " + responseCode);
 
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(con.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    //print result
-                    Log.d("TEST", response.toString());
+//                    BufferedReader in = new BufferedReader(
+//                            new InputStreamReader(con.getInputStream()));
+//                    String inputLine;
+//                    StringBuffer response = new StringBuffer();
+//
+//                    while ((inputLine = in.readLine()) != null) {
+//                        response.append(inputLine);
+//                    }
+//                    in.close();
+//
+//                    //print result
+//                    Log.d("TEST", response.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
