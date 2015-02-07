@@ -4,5 +4,9 @@
 <string name="app_name">HeathHackathon</string>
 <string name="title_activity_map">112+</string>
 <string name="help">Zgłoś</string>
+    <string name="lose">Utrata przytomności</string>
+    <string name="seizure">Atak Padaczki</string>
+    <string name="accident">Wypadek</string>
+    <string name="asthma">Atak astmy</string>
 
 </resources>
